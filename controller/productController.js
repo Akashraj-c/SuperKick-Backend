@@ -1,8 +1,8 @@
 const products = require('../model/productModel')
 
-exports.addProductCOntroller = async (req, res) => {
-    const { category, subcategory, brand, name, color, price } = req.body
-    console.log(category, subcategory, brand, name, color, price);
+exports.addProductCOntroller = async (req, res) => {  //Add new products
+    const { category, subcategory, gender, brand, name, color, price } = req.body
+    console.log(category, subcategory, gender, brand, name, color, price);
 
     let { size } = req.body;
     console.log(size);
@@ -21,7 +21,7 @@ exports.addProductCOntroller = async (req, res) => {
         }
         else {
             const newProduct = new products({
-                category, subcategory, brand, name, color, size, price, uploadedImg
+                category, subcategory, gender, brand, name, color, size, price, uploadedImg
             })
             await newProduct.save()
             res.status(200).json(newProduct)
@@ -30,3 +30,29 @@ exports.addProductCOntroller = async (req, res) => {
         res.status(500).json(error)
     }
 }
+
+exports.getAllProductController = async (req, res) => {  //get all products
+    const searchKey = req.query.search
+    try {
+        const allproducts = await products.find({
+            $or: [
+                { name: { $regex: searchKey, $options: "i" } },
+                { brand: { $regex: searchKey, $options: "i" } }
+            ]
+        })
+        res.status(200).json(allproducts)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
+
+exports.deleteProductController = async (req, res) => {  //Delete a product
+    const { id } = req.params
+
+    try {
+        const deleteProduct = await products.findByIdAndDelete({ _id: id })
+        res.status(200).json(deleteProduct)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+} 
