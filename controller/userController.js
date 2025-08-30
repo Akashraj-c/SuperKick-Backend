@@ -53,27 +53,6 @@ exports.googleLoginController = async (req, res) => {
     const { username, email, password, profile } = req.body
     console.log(username, email, password, profile);
 
-    // try {
-    //     const existingUser = await users.findOne({ email })
-    //     if (existingUser) {
-    //         const token = jwt.sign({ userMail: existingUser.email }, 'secretKey')
-    //         res.status(200).json({ existingUser, token })
-    //     }
-    //     else {
-    //         const newUser = new users({
-    //             username,
-    //             email,
-    //             password,
-    //             profile
-    //         })
-    //         await newUser.save()
-    //         const token = jwt.sign({ userMail: existingUser.email }, 'secretKey')
-    //         res.status(200).json({ existingUser: newUser, token })
-    //     }
-    // } catch (error) {
-    //     res.status(500).json(error)
-    // }
-
     try {
         const existingUser = await users.findOne({ email })
         if (existingUser) {

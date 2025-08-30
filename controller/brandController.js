@@ -48,10 +48,10 @@ exports.deleteBrandController = async (req, res) => {
     }
 }
 
-// get 12 latest brands at UserHome page
+// get 13 latest brands at UserHome page
 exports.getHomeBrandController = async (req, res) => {
     try {
-        const Homebrands = await brands.find().sort({ _id: -1 }).limit(13)
+        const Homebrands = await brands.find().sort({ _id: 1 }).limit(13)
         res.status(200).json(Homebrands)
     } catch (error) {
         res.status(500).json(error)
