@@ -10,6 +10,8 @@ superKickServer.use(cors())
 superKickServer.use(express.json())
 superKickServer.use(route)
 
+superKickServer.use('/uploads', express.static('./uploads'))
+
 const PORT = 4000 || process.env.PORT
 
 superKickServer.listen(PORT, () => {

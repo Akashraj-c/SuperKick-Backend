@@ -39,7 +39,7 @@ exports.getAllProductController = async (req, res) => {  //get all products
                 { name: { $regex: searchKey, $options: "i" } },
                 { brand: { $regex: searchKey, $options: "i" } }
             ]
-        })
+        }).sort({ _id: -1 })
         res.status(200).json(allproducts)
     } catch (error) {
         res.status(500).json(error)
@@ -55,4 +55,28 @@ exports.deleteProductController = async (req, res) => {  //Delete a product
     } catch (error) {
         res.status(500).json(error)
     }
-} 
+}
+
+exports.editProductController = async (req, res) => {  //edit product
+    const { category, subcategory, gender, brand, name, color, price } = req.body
+    console.log(category, subcategory, gender, brand, name, color, price);
+
+    const { id } = req.params
+
+    let { size } = req.body;
+    console.log(size);
+    if (typeof size === "string") {
+        size = JSON.parse(size);
+    }
+
+    uploadedImg = []
+    req.files.map((items) => uploadedImg.push(items.filename))
+    console.log(uploadedImg)
+
+    try {
+        const editproduct = await products.findByIdAndUpdate({ _id: id }, { category, subcategory, gender, brand, name, color, size, price, uploadedImg }, { new: true })
+        res.status(200).json(editproduct)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}

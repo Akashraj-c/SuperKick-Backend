@@ -16,8 +16,10 @@ route.get('/gethomebrands', brandController.getHomeBrandController) //get limite
 route.post('/addbrands', jwtMiddleWare, brandController.addBrandController) // Add brands
 route.delete('/deletebrand/:id', brandController.deleteBrandController) //Delete brand
 route.post('/addproduct', jwtMiddleWare, multerConfig.array('uploadedImg', 5), productController.addProductCOntroller) //Add new Product
-route.get('/allproducts',productController.getAllProductController) //Get all products
-route.delete('/deleteproduct/:id',productController.deleteProductController)
+route.get('/allproducts', productController.getAllProductController) //Get all products
+route.delete('/deleteproduct/:id', productController.deleteProductController) //Delete product
+route.put('/editprodcut/:id', multerConfig.array('uploadedImg', 5), productController.editProductController) //Edit product
+
 // --------Common--------
 route.get('/allbrands', brandController.getAllBrandCOntroller) //Get all brands
 
