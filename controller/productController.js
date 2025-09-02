@@ -15,7 +15,7 @@ exports.addProductCOntroller = async (req, res) => {  //Add new products
     console.log(uploadedImg);
 
     try {
-        const existingProduct = await products.findOne({ category, brand, name })
+        const existingProduct = await products.findOne({ category, brand, name, color })
         if (existingProduct) {
             res.status(409).json('Product already added')
         }
@@ -31,7 +31,7 @@ exports.addProductCOntroller = async (req, res) => {  //Add new products
     }
 }
 
-exports.getAllProductController = async (req, res) => {  //get all products
+exports.getAllProductController = async (req, res) => {  //get all products at admin and user page
     const searchKey = req.query.search
     try {
         const allproducts = await products.find({
@@ -46,7 +46,7 @@ exports.getAllProductController = async (req, res) => {  //get all products
     }
 }
 
-exports.deleteProductController = async (req, res) => {  //Delete a product
+exports.deleteProductController = async (req, res) => {  //Delete a product 
     const { id } = req.params
 
     try {
@@ -76,6 +76,39 @@ exports.editProductController = async (req, res) => {  //edit product
     try {
         const editproduct = await products.findByIdAndUpdate({ _id: id }, { category, subcategory, gender, brand, name, color, size, price, uploadedImg }, { new: true })
         res.status(200).json(editproduct)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
+
+exports.getAllSneakerController = async (req, res) => { //get all shoes at user page
+    const searchKey = req.query.search
+    try {
+        const allSneakers = await products.find({
+            category: 'shoes',
+
+            $or: [
+                { name: { $regex: searchKey, $options: "i" } },
+                { brand: { $regex: searchKey, $options: "i" } }
+            ]
+        }).sort({ _id: -1 })
+        res.status(200).json(allSneakers)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
+
+exports.getAllApparelController = async (req, res) => { //get all Apparels at user page
+    const searchKey = req.query.search
+    try {
+        const allApparels = await products.find({
+            category: 'apparel',
+            $or: [
+                { name: { $regex: searchKey, $options: "i" } },
+                { brand: { $regex: searchKey, $options: "i" } }
+            ]
+        }).sort({ _id: -1 })
+        res.status(200).json(allApparels)
     } catch (error) {
         res.status(500).json(error)
     }
