@@ -85,7 +85,7 @@ exports.getAllSneakerController = async (req, res) => { //get all shoes at user 
     const searchKey = req.query.search
     try {
         const allSneakers = await products.find({
-            category: 'shoes',
+            category: 'Shoes',
 
             $or: [
                 { name: { $regex: searchKey, $options: "i" } },
@@ -102,13 +102,59 @@ exports.getAllApparelController = async (req, res) => { //get all Apparels at us
     const searchKey = req.query.search
     try {
         const allApparels = await products.find({
-            category: 'apparel',
+            category: 'Apparels',
             $or: [
                 { name: { $regex: searchKey, $options: "i" } },
                 { brand: { $regex: searchKey, $options: "i" } }
             ]
         }).sort({ _id: -1 })
         res.status(200).json(allApparels)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
+
+exports.getAProductController = async (req, res) => {  //get details of a particular product
+    const { id } = req.params
+    console.log(id);
+
+    try {
+        const productDetails = await products.findOne({ _id: id })
+        res.status(200).json(productDetails)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
+
+exports.getAllWomensProductController = async (req, res) => { //get all Mens Products at user page
+    const searchKey = req.query.search
+    try {
+        const allProducts = await products.find({
+            gender: 'Women',
+
+            $or: [
+                { name: { $regex: searchKey, $options: "i" } },
+                { brand: { $regex: searchKey, $options: "i" } }
+            ]
+        }).sort({ _id: -1 })
+        res.status(200).json(allProducts)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
+
+exports.getAllMensProductController = async (req, res) => { //get all Mens Products at user page
+    const searchKey = req.query.search
+    try {
+        const allProducts = await products.find({
+            gender: 'Men',
+
+            $or: [
+                { name: { $regex: searchKey, $options: "i" } },
+                { brand: { $regex: searchKey, $options: "i" } }
+            ]
+        }).sort({ _id: -1 })
+        res.status(200).json(allProducts)
     } catch (error) {
         res.status(500).json(error)
     }

@@ -13,9 +13,13 @@ route.post('/googleLogin', userController.googleLoginController) //user google l
 route.get('/gethomebrands', brandController.getHomeBrandController) //get limited brands at UserHome page
 route.get('/allSneakers', productController.getAllSneakerController) //get all sneakers at sneaker page 
 route.get('/allApparels', productController.getAllApparelController) //get all Apparels at apparel page
+route.get('/allhomebrands', brandController.getAllBrandHomeCOntroller) //get all brands at home sidebar for filtering
+route.get('/AProductDetails/:id', productController.getAProductController) //get details of a particular product
+route.get('/menproducts', productController.getAllMensProductController) //get all mens products
+route.get('/womenproducts', productController.getAllWomensProductController) //get all women products
 
 // --------Admin--------
-route.post('/addbrands', jwtMiddleWare, brandController.addBrandController) // Add brands
+route.post('/addbrands', jwtMiddleWare, brandController.addBrandController) //Add brands
 route.delete('/deletebrand/:id', brandController.deleteBrandController) //Delete brand
 route.post('/addproduct', jwtMiddleWare, multerConfig.array('uploadedImg', 5), productController.addProductCOntroller) //Add new Product
 route.delete('/deleteproduct/:id', productController.deleteProductController) //Delete product

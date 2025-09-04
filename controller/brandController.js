@@ -57,3 +57,13 @@ exports.getHomeBrandController = async (req, res) => {
         res.status(500).json(error)
     }
 }
+
+// Get all brands at home sideBar for filtering
+exports.getAllBrandHomeCOntroller = async (req, res) => {
+    try {
+        const allBrands = await brands.find()
+        res.status(200).json(allBrands)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
