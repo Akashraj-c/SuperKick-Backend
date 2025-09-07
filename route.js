@@ -2,6 +2,7 @@ const express = require('express')
 const userController = require('./controller/userController')
 const brandController = require('./controller/brandController')
 const productController = require('./controller/productController')
+const wishListController = require('./controller/wishListController')
 const jwtMiddleWare = require('./middleware/jwtMiddleWare')
 const multerConfig = require('./middleware/multerMiddleWare')
 const route = express.Router()
@@ -17,6 +18,9 @@ route.get('/allhomebrands', brandController.getAllBrandHomeCOntroller) //get all
 route.get('/AProductDetails/:id', productController.getAProductController) //get details of a particular product
 route.get('/menproducts', productController.getAllMensProductController) //get all mens products
 route.get('/womenproducts', productController.getAllWomensProductController) //get all women products
+route.post('/addWishList', jwtMiddleWare, wishListController.addWishListController) //add new product to wishlist
+route.get('/getallproducts', jwtMiddleWare, wishListController.getAllWishlistProductController) //get all wishlist products
+route.delete('/removeproduct/:id', wishListController.removeProductController) // Remove product from wishlist
 
 // --------Admin--------
 route.post('/addbrands', jwtMiddleWare, brandController.addBrandController) //Add brands
