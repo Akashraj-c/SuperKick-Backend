@@ -3,6 +3,7 @@ const userController = require('./controller/userController')
 const brandController = require('./controller/brandController')
 const productController = require('./controller/productController')
 const wishListController = require('./controller/wishListController')
+const blogController = require('./controller/blogController')
 const jwtMiddleWare = require('./middleware/jwtMiddleWare')
 const multerConfig = require('./middleware/multerMiddleWare')
 const route = express.Router()
@@ -21,6 +22,7 @@ route.get('/womenproducts', productController.getAllWomensProductController) //g
 route.post('/addWishList', jwtMiddleWare, wishListController.addWishListController) //add new product to wishlist
 route.get('/getallproducts', jwtMiddleWare, wishListController.getAllWishlistProductController) //get all wishlist products
 route.delete('/removeproduct/:id', wishListController.removeProductController) // Remove product from wishlist
+route.get('/getABlog/:id',blogController.getABlogDetailsController) //get a blog details
 
 // --------Admin--------
 route.post('/addbrands', jwtMiddleWare, brandController.addBrandController) //Add brands
@@ -28,10 +30,12 @@ route.delete('/deletebrand/:id', brandController.deleteBrandController) //Delete
 route.post('/addproduct', jwtMiddleWare, multerConfig.array('uploadedImg', 5), productController.addProductCOntroller) //Add new Product
 route.delete('/deleteproduct/:id', productController.deleteProductController) //Delete product
 route.put('/editprodcut/:id', multerConfig.array('uploadedImg', 5), productController.editProductController) //Edit product
+route.post('/addblog', jwtMiddleWare, multerConfig.single('image'), blogController.addBlogController) //Add blogs
+route.get('/getallblogs', blogController.getAllBlogController) //Get all blogs
+route.delete('/deleteblog/:id', jwtMiddleWare, blogController.deleteABlogController) //Delete a blogs
 
 // --------Common--------
 route.get('/allbrands', brandController.getAllBrandCOntroller) //Get all brands
 route.get('/allproducts', productController.getAllProductController) //Get all products
-
 
 module.exports = route
