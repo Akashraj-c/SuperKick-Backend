@@ -5,6 +5,7 @@ const productController = require('./controller/productController')
 const wishListController = require('./controller/wishListController')
 const blogController = require('./controller/blogController')
 const commentController = require('./controller/blogCommentsController')
+const cartController = require('./controller/cartController')
 const jwtMiddleWare = require('./middleware/jwtMiddleWare')
 const multerConfig = require('./middleware/multerMiddleWare')
 const route = express.Router()
@@ -22,9 +23,12 @@ route.get('/menproducts', productController.getAllMensProductController) //get a
 route.get('/womenproducts', productController.getAllWomensProductController) //get all women products
 route.post('/addWishList', jwtMiddleWare, wishListController.addWishListController) //add new product to wishlist
 route.get('/getallproducts', jwtMiddleWare, wishListController.getAllWishlistProductController) //get all wishlist products
-route.delete('/removeproduct/:id', wishListController.removeProductController) // Remove product from wishlist
+route.delete('/removeproduct/:id', wishListController.removeProductController) //Remove product from wishlist
 route.get('/getABlog/:id', blogController.getABlogDetailsController) //get a blog details
 route.post('/addcomment', jwtMiddleWare, commentController.addCommentController) //post a comment for a particular blog 
+route.post('/addcart', jwtMiddleWare, cartController.addCartController) //add products to cart
+route.get('/allcart', jwtMiddleWare, cartController.getAllCartController) //get all cart products
+route.delete('/removecart/:id', cartController.removeProductCartController) //remove products from cart
 
 // --------Admin---------
 route.post('/addbrands', jwtMiddleWare, brandController.addBrandController) //Add brands
