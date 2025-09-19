@@ -159,3 +159,15 @@ exports.getAllMensProductController = async (req, res) => { //get all Mens Produ
         res.status(500).json(error)
     }
 }
+
+exports.getAllTrendingPrdt = async (req, res) => { //get all similar products on product details page
+    const category = req.query.category
+    console.log(category);
+
+    try {
+        const TrendingPrdts = await products.find({ category }).sort({ _id: -1 }).limit(10)
+        res.status(200).json(TrendingPrdts)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}

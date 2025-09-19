@@ -29,6 +29,7 @@ route.post('/addcomment', jwtMiddleWare, commentController.addCommentController)
 route.post('/addcart', jwtMiddleWare, cartController.addCartController) //add products to cart
 route.get('/allcart', jwtMiddleWare, cartController.getAllCartController) //get all cart products
 route.delete('/removecart/:id', cartController.removeProductCartController) //remove products from cart
+route.get('/gettrendingprdt',productController.getAllTrendingPrdt) //get all trending prdt at product details page
 
 // --------Admin---------
 route.post('/addbrands', jwtMiddleWare, brandController.addBrandController) //Add brands
