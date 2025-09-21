@@ -6,6 +6,7 @@ const wishListController = require('./controller/wishListController')
 const blogController = require('./controller/blogController')
 const commentController = require('./controller/blogCommentsController')
 const cartController = require('./controller/cartController')
+const addressController = require('./controller/addressController')
 const jwtMiddleWare = require('./middleware/jwtMiddleWare')
 const multerConfig = require('./middleware/multerMiddleWare')
 const route = express.Router()
@@ -29,8 +30,10 @@ route.post('/addcomment', jwtMiddleWare, commentController.addCommentController)
 route.post('/addcart', jwtMiddleWare, cartController.addCartController) //add products to cart
 route.get('/allcart', jwtMiddleWare, cartController.getAllCartController) //get all cart products
 route.delete('/removecart/:id', cartController.removeProductCartController) //remove products from cart
-route.get('/gettrendingprdt',productController.getAllTrendingPrdt) //get all trending prdt at product details page
-
+route.get('/gettrendingprdt', productController.getAllTrendingPrdt) //get all trending prdt at product details page
+route.put('/updateQty', cartController.updatePrdtQty) // update the qauntity of the product added in cart
+route.post('/addAddress', jwtMiddleWare, addressController.addAddressController)
+route.get('/getAddress',addressController.getAddressCOntroller) // get address
 // --------Admin---------
 route.post('/addbrands', jwtMiddleWare, brandController.addBrandController) //Add brands
 route.delete('/deletebrand/:id', brandController.deleteBrandController) //Delete brand

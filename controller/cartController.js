@@ -48,3 +48,16 @@ exports.removeProductCartController = async (req, res) => {
         res.status(500).json(error)
     }
 }
+
+// update quantity
+exports.updatePrdtQty = async (req, res) => {
+    const { id, qty } = req.body
+    console.log(id, qty);
+
+    try {
+        const updateQty = await cart.findByIdAndUpdate({ _id: id }, { $inc: { quantuty: qty } }, { new: true })
+        res.status(200).json(updateQty)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
