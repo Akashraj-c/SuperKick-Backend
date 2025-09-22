@@ -1,5 +1,6 @@
 const address = require('../model/addressModel')
 
+// add new address
 exports.addAddressController = async (req, res) => {
     const { pincode, city, state, buildingnumber, completeaddress, fullname, phonenumber } = req.body
     console.log(pincode, city, state, buildingnumber, completeaddress, fullname, phonenumber);
@@ -24,10 +25,28 @@ exports.addAddressController = async (req, res) => {
     }
 }
 
+// get address
 exports.getAddressCOntroller = async (req, res) => {
+    const userId = req.payload
+
     try {
-        const addressdata = await address.find()
+        const addressdata = await address.find({ userId })
         res.status(200).json(addressdata)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
+
+// edit address
+exports.editAddressController = async (req, res) => {
+    const { pincode, city, state, buildingnumber, completeaddress, fullname, phonenumber, addressId } = req.body
+    console.log(pincode, city, state, buildingnumber, completeaddress, fullname, phonenumber, addressId);
+
+    const userId = req.payload
+
+    try {
+        const editAddress = await address.findByIdAndUpdate({ _id: addressId }, { pincode, city, state, buildingnumber, completeaddress, fullname, phonenumber, userId }, { new: true })
+        res.status(200).json(editAddress)
     } catch (error) {
         res.status(500).json(error)
     }

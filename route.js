@@ -32,8 +32,10 @@ route.get('/allcart', jwtMiddleWare, cartController.getAllCartController) //get 
 route.delete('/removecart/:id', cartController.removeProductCartController) //remove products from cart
 route.get('/gettrendingprdt', productController.getAllTrendingPrdt) //get all trending prdt at product details page
 route.put('/updateQty', cartController.updatePrdtQty) // update the qauntity of the product added in cart
-route.post('/addAddress', jwtMiddleWare, addressController.addAddressController)
-route.get('/getAddress',addressController.getAddressCOntroller) // get address
+route.post('/addAddress', jwtMiddleWare, addressController.addAddressController) // add new address
+route.get('/getAddress', jwtMiddleWare, addressController.getAddressCOntroller) // get address
+route.put('/editaddress', jwtMiddleWare, addressController.editAddressController) // edit address
+
 // --------Admin---------
 route.post('/addbrands', jwtMiddleWare, brandController.addBrandController) //Add brands
 route.delete('/deletebrand/:id', brandController.deleteBrandController) //Delete brand
@@ -45,6 +47,7 @@ route.get('/getallblogs', blogController.getAllBlogController) //Get all blogs
 route.delete('/deleteblog/:id', jwtMiddleWare, blogController.deleteABlogController) //Delete a blogs
 route.get('/getallcomments', commentController.getCommentsController) //get all comments of blogs 
 route.delete(`/deletecomment/:id`, commentController.deleteCommentController) //delete a comment
+route.get(`/getAllUsers`, userController.getAllUserController) //get all users at home page
 
 // --------Common--------
 route.get('/allbrands', brandController.getAllBrandCOntroller) //Get all brands
