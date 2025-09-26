@@ -171,3 +171,22 @@ exports.getAllTrendingPrdt = async (req, res) => { //get all similar products on
         res.status(500).json(error)
     }
 }
+
+exports.updateQuantityController = async (req, res) => { // update quantity of particular's size afetr checkout
+    const { updatedetail } = req.body
+    console.log(updatedetail);
+
+    try {
+        const updateprdt = updatedetail.map((items) => ({
+            updateOne: {
+                filter: { _id: items.productId },
+                update: { $inc: { [`size.${items.size}`]: -items.quantity } }
+            }
+        }))
+        const result = await products.bulkWrite(updateprdt)
+        res.status(200).json(result)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+
+}

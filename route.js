@@ -7,6 +7,7 @@ const blogController = require('./controller/blogController')
 const commentController = require('./controller/blogCommentsController')
 const cartController = require('./controller/cartController')
 const addressController = require('./controller/addressController')
+const orderController = require('./controller/orderController')
 const jwtMiddleWare = require('./middleware/jwtMiddleWare')
 const multerConfig = require('./middleware/multerMiddleWare')
 const route = express.Router()
@@ -35,6 +36,14 @@ route.put('/updateQty', cartController.updatePrdtQty) // update the qauntity of 
 route.post('/addAddress', jwtMiddleWare, addressController.addAddressController) // add new address
 route.get('/getAddress', jwtMiddleWare, addressController.getAddressCOntroller) // get address
 route.put('/editaddress', jwtMiddleWare, addressController.editAddressController) // edit address
+// RazorPay
+route.post('/create-order', cartController.createOrderController) // create payment order
+route.post('/verify-order', cartController.verifyOrderController) //signature verfication
+
+route.delete('/deleteCart', jwtMiddleWare, cartController.removeAllCartProductsController) //remove all products from cart after payment
+route.post('/addOrderedProducts', jwtMiddleWare, orderController.addOrderProductController) //add all products to orders after payment
+route.get('/getallorders', jwtMiddleWare, orderController.getAllOrderProductController) //get all ordered products of a aprticular user
+route.put('/updateproductqty',productController.updateQuantityController) // update quantity of particular's size afetr checkout
 
 // --------Admin---------
 route.post('/addbrands', jwtMiddleWare, brandController.addBrandController) //Add brands
@@ -48,6 +57,7 @@ route.delete('/deleteblog/:id', jwtMiddleWare, blogController.deleteABlogControl
 route.get('/getallcomments', commentController.getCommentsController) //get all comments of blogs 
 route.delete(`/deletecomment/:id`, commentController.deleteCommentController) //delete a comment
 route.get(`/getAllUsers`, userController.getAllUserController) //get all users at home page
+route.get('/allorders', jwtMiddleWare, orderController.getAllOrderProductController) //get all ordered products
 
 // --------Common--------
 route.get('/allbrands', brandController.getAllBrandCOntroller) //Get all brands

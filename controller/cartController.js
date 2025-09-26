@@ -1,4 +1,6 @@
 const cart = require('../model/cartModel')
+const Razorpay = require('razorpay');
+const crypto = require('crypto')
 
 // add new cart product
 exports.addCartController = async (req, res) => {
@@ -60,4 +62,67 @@ exports.updatePrdtQty = async (req, res) => {
     } catch (error) {
         res.status(500).json(error)
     }
+}
+
+// create order
+exports.createOrderController = async (req, res) => {
+    const { amount, currency } = req.body
+    // console.log(amount, currency);
+
+    const razorpay = new Razorpay({
+        key_id: process.env.RAZORPAY_KEY_ID,
+        key_secret: process.env.RAZORPAY_KEY_SECRET,
+    });
+
+    try {
+        const options = {
+            amount: amount * 100,
+            currency: currency || "INR",
+            receipt: "receipt_" + Date.now()
+        };
+        const order = await razorpay.orders.create(options);
+        res.status(200).json(order)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
+
+// verify order
+exports.verifyOrderController = async (req, res) => {
+    const { order_id, payment_id, signature } = req.body
+    // console.log(order_id, payment_id, signature);
+
+    try {
+        const sign = order_id + "|" + payment_id; //create expected signature
+        const expectedSign = crypto.createHmac("sha256", process.env.RAZORPAY_KEY_SECRET).update(sign).digest("hex");
+
+        // Compare signatures
+        if (signature === expectedSign) {
+            res.status(200).json("Payment verified successfully")
+            // return res.json({ success: true, message: "Payment verified successfully" });
+        } else {
+            res.status(402).json("Invalid signature")
+            // return res.status(400).json({ success: false, message: "Invalid signature" });
+        }
+
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
+
+// delete all products from cart after payment
+exports.removeAllCartProductsController = async (req, res) => {
+    const { allCartIds } = req.body
+    console.log(allCartIds);
+
+    const userId = req.payload
+    console.log(userId);
+
+    try {
+        const deleteProducts = await cart.deleteMany({ userId, _id: { $in: allCartIds } })
+        res.status(200).json(deleteProducts)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+
 }
