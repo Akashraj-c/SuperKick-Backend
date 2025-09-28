@@ -51,3 +51,16 @@ exports.editAddressController = async (req, res) => {
         res.status(500).json(error)
     }
 }
+
+// delete Address
+exports.deleteAddressController = async (req, res) => {
+    const { id } = req.params
+    console.log(id);
+    
+    try {
+        const deleteAddres = await address.findByIdAndDelete({ _id: id })
+        res.status(200).json(deleteAddres)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}

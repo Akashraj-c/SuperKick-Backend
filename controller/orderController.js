@@ -23,7 +23,8 @@ exports.addOrderProductController = async (req, res) => {
 // get all orders of a particular user
 exports.getAllOrderProductController = async (req, res) => {
     const userId = req.payload
-
+    console.log(userId);
+    
     try {
         const allOrders = await order.find({ userId }).populate('products.productId').populate('addressId').sort({ _id: -1 })
         res.status(200).json(allOrders)
@@ -33,7 +34,7 @@ exports.getAllOrderProductController = async (req, res) => {
 }
 
 // get all orders at admin page
-exports.getAllOrderProductController = async (req, res) => {
+exports.getAllOrderAdminProductController = async (req, res) => {
     const userId = req.payload
 
     try {
